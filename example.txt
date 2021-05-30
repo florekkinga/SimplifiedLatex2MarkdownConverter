@@ -1,0 +1,8 @@
+\begin{document}
+\section{naglowek}
+\begin{itemize}
+    \item listowanie
+    \item listowanie 2
+\end{itemize}
+koniec \textbf{i pogrubiony koniec!}
+\end{document}

@@ -22,7 +22,7 @@ latexElement
     | header1
     | header2
     | header3
-    | enumerate
+    | numbered_list
     | itemize
     | code
     ;
@@ -34,7 +34,7 @@ elementContent
 latexNestedElement
     : bold
     | italics
-    | enumerate
+    | numbered_list
     | itemize
     | code
     ;
@@ -59,7 +59,7 @@ header3
     : HEADER1 text COMMAND_CLOSE
     ;
 
-enumerate
+numbered_list
     : ENUM_START text* item+ ENUM_END
     ;
 
