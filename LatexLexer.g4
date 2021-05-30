@@ -74,3 +74,26 @@ CODE_START
 CODE_END
     : '\\end{verbatim}'
     ;
+
+TABLE_START
+    : '\\begin{table}' '[]'? WHITESPACE? '\\begin{tabular}' '{' -> pushMode(COLUMNS)
+    ;
+
+TABLE_END
+    : '\\end{tabular}' WHITESPACE? '\\end{table}'
+    ;
+
+mode COLUMNS;
+COLUMNS_ALIGN
+    : COLUMN_ALIGN+ COMMAND_CLOSE -> popMode
+    ;
+
+COLUMN_ALIGN
+    : '|'? ALIGN_CHAR '|'?
+    ;
+
+ALIGN_CHAR
+    : 'l'
+    | 'r'
+    | 'c'
+    ;

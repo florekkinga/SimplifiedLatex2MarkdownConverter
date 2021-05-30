@@ -25,6 +25,7 @@ latexElement
     | numbered_list
     | itemize
     | code
+    | table
     ;
 
 elementContent
@@ -75,3 +76,6 @@ code
     : CODE_START text CODE_END
     ;
 
+table
+    : TABLE_START text? TABLE_END
+    ;
