@@ -15,6 +15,10 @@ TEXT
     ~[\\}]+
     ;
 
+LINE_END
+    : '\\\\'
+    ;
+
 WHITESPACE
     :  (' '|'\t'|'\r'? '\n')+
     ;
@@ -32,15 +36,15 @@ ITALICS_OPEN
     ;
 
 HEADER1
-    : '\\section'
+    : '\\section{'
     ;
 
 HEADER2
-    : '\\subsection'
+    : '\\subsection{'
     ;
 
 HEADER3
-    : '\\subsubsection'
+    : '\\subsubsection{'
     ;
 
 ENUM_START
@@ -51,7 +55,22 @@ ENUM_END
     : '\\end{enumerate}'
     ;
 
+LIST_START
+    : '\\begin{itemize}'
+    ;
+
+LIST_END
+    : '\\end{itemize}'
+    ;
+
 ITEM
     : '\\item'
     ;
 
+CODE_START
+    : '\\begin{verbatim}'
+    ;
+
+CODE_END
+    : '\\end{verbatim}'
+    ;
