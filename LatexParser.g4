@@ -52,11 +52,11 @@ header1
     ;
 
 header2
-    : HEADER1 text COMMAND_CLOSE
+    : HEADER2 text COMMAND_CLOSE
     ;
 
 header3
-    : HEADER1 text COMMAND_CLOSE
+    : HEADER3 text COMMAND_CLOSE
     ;
 
 numbered_list
