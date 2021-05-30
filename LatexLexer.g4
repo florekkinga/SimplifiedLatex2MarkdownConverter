@@ -1,11 +1,14 @@
 lexer grammar LatexLexer;
 
 // tokens
-BOLD_OPEN
-    : '\\textbf{' -> pushMode(COMMAND)
-    ;
+
 DOCUMENT_START
-    : '\\begin{document}' -> pushMode(DOCUMENT);
+    : '\\begin{document}'
+    ;
+
+DOCUMENT_END
+    : '\\end{document}'
+    ;
 
 TEXT
     :
@@ -16,16 +19,39 @@ WHITESPACE
     :  (' '|'\t'|'\r'? '\n')+
     ;
 
-mode COMMAND;
 COMMAND_CLOSE
-    : '}' -> popMode
+    : '}'
     ;
 
-mode DOCUMENT;
-DOCUMENT_END
-    : '\\end{document}' -> popMode;
+BOLD_OPEN
+    : '\\textbf{'
+    ;
 
+ITALICS_OPEN
+    : '\\textit{'
+    ;
 
+HEADER1
+    : '\\section'
+    ;
 
-//USER_TEXT : \s*\(?(?<![\\beginendtextbf])(\b(?!document\b)\w+)[',:)-.]*[\s\n]*;
+HEADER2
+    : '\\subsection'
+    ;
+
+HEADER3
+    : '\\subsubsection'
+    ;
+
+ENUM_START
+    : '\\begin{enumerate}'
+    ;
+
+ENUM_END
+    : '\\end{enumerate}'
+    ;
+
+ITEM
+    : '\\item'
+    ;
 

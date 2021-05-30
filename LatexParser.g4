@@ -9,7 +9,7 @@ latexDocument
 
 documentContent
     :
-    text? // (latexElement text?)*
+    text? (latexElement text?)*
     ;
 
 text
@@ -18,5 +18,5 @@ text
     ;
 
 latexElement
-    : BOLD_OPEN text* latexElement? text* COMMAND_CLOSE
+    : BOLD_OPEN text* (latexElement text?)* COMMAND_CLOSE
     ;
