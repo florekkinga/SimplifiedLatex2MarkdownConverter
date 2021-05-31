@@ -12,7 +12,7 @@ DOCUMENT_END
 
 TEXT
     :
-    ~[\\}]+
+    ~[\\}&]+
     ;
 
 LINE_END
@@ -73,4 +73,24 @@ CODE_START
 
 CODE_END
     : '\\end{verbatim}'
+    ;
+
+TABLE_START
+    : '\\begin{table}' '[]'? WHITESPACE? '\\begin{tabular}'
+    ;
+
+TABLE_ALIGN
+    : '{' ('|'? [lrc] '|'?)+ COMMAND_CLOSE
+    ;
+
+CELL_SEPARATOR
+    : '&'
+    ;
+
+HLINE
+    : '\\hline'
+    ;
+
+TABLE_END
+    : WHITESPACE? '\\end{tabular}' WHITESPACE? '\\end{table}'
     ;
