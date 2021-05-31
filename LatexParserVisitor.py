@@ -88,6 +88,4 @@ class LatexParserVisitor(ParseTreeVisitor):
     def visitTable(self, ctx:LatexParser.TableContext):
         return self.visitChildren(ctx)
 
-
-
 del LatexParser
