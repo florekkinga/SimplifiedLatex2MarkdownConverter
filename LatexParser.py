@@ -47,13 +47,13 @@ def serializedATN():
         buf.write("\2\2YV\3\2\2\2YW\3\2\2\2YX\3\2\2\2Z\r\3\2\2\2[\\\7\t\2")
         buf.write("\2\\]\5\n\6\2]^\7\b\2\2^\17\3\2\2\2_`\7\n\2\2`a\5\n\6")
         buf.write("\2ab\7\b\2\2b\21\3\2\2\2cd\7\13\2\2de\5\6\4\2ef\7\b\2")
-        buf.write("\2f\23\3\2\2\2gh\7\13\2\2hi\5\6\4\2ij\7\b\2\2j\25\3\2")
-        buf.write("\2\2kl\7\13\2\2lm\5\6\4\2mn\7\b\2\2n\27\3\2\2\2os\7\16")
-        buf.write("\2\2pr\5\6\4\2qp\3\2\2\2ru\3\2\2\2sq\3\2\2\2st\3\2\2\2")
-        buf.write("tw\3\2\2\2us\3\2\2\2vx\5\34\17\2wv\3\2\2\2xy\3\2\2\2y")
-        buf.write("w\3\2\2\2yz\3\2\2\2z{\3\2\2\2{|\7\17\2\2|\31\3\2\2\2}")
-        buf.write("\u0081\7\20\2\2~\u0080\5\6\4\2\177~\3\2\2\2\u0080\u0083")
-        buf.write("\3\2\2\2\u0081\177\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0085")
+        buf.write("\2f\23\3\2\2\2gh\7\f\2\2hi\5\6\4\2ij\7\b\2\2j\25\3\2\2")
+        buf.write("\2kl\7\r\2\2lm\5\6\4\2mn\7\b\2\2n\27\3\2\2\2os\7\16\2")
+        buf.write("\2pr\5\6\4\2qp\3\2\2\2ru\3\2\2\2sq\3\2\2\2st\3\2\2\2t")
+        buf.write("w\3\2\2\2us\3\2\2\2vx\5\34\17\2wv\3\2\2\2xy\3\2\2\2yw")
+        buf.write("\3\2\2\2yz\3\2\2\2z{\3\2\2\2{|\7\17\2\2|\31\3\2\2\2}\u0081")
+        buf.write("\7\20\2\2~\u0080\5\6\4\2\177~\3\2\2\2\u0080\u0083\3\2")
+        buf.write("\2\2\u0081\177\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0085")
         buf.write("\3\2\2\2\u0083\u0081\3\2\2\2\u0084\u0086\5\34\17\2\u0085")
         buf.write("\u0084\3\2\2\2\u0086\u0087\3\2\2\2\u0087\u0085\3\2\2\2")
         buf.write("\u0087\u0088\3\2\2\2\u0088\u0089\3\2\2\2\u0089\u008a\7")
@@ -164,6 +164,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitLatexDocument" ):
                 listener.exitLatexDocument(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLatexDocument" ):
+                return visitor.visitLatexDocument(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -219,6 +225,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitDocumentContent" ):
                 listener.exitDocumentContent(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDocumentContent" ):
+                return visitor.visitDocumentContent(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -242,7 +254,7 @@ class LatexParser ( Parser ):
             self.state = 49
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << LatexParser.BOLD_OPEN) | (1 << LatexParser.ITALICS_OPEN) | (1 << LatexParser.HEADER1) | (1 << LatexParser.ENUM_START) | (1 << LatexParser.LIST_START) | (1 << LatexParser.CODE_START))) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << LatexParser.BOLD_OPEN) | (1 << LatexParser.ITALICS_OPEN) | (1 << LatexParser.HEADER1) | (1 << LatexParser.HEADER2) | (1 << LatexParser.HEADER3) | (1 << LatexParser.ENUM_START) | (1 << LatexParser.LIST_START) | (1 << LatexParser.CODE_START))) != 0):
                 self.state = 40
                 self.latexElement()
                 self.state = 44
@@ -293,6 +305,12 @@ class LatexParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitText" ):
                 listener.exitText(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitText" ):
+                return visitor.visitText(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -369,6 +387,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitLatexElement" ):
                 listener.exitLatexElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLatexElement" ):
+                return visitor.visitLatexElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -379,55 +403,49 @@ class LatexParser ( Parser ):
         try:
             self.state = 62
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,3,self._ctx)
-            if la_ == 1:
+            token = self._input.LA(1)
+            if token in [LatexParser.BOLD_OPEN]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 54
                 self.bold()
                 pass
-
-            elif la_ == 2:
+            elif token in [LatexParser.ITALICS_OPEN]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 55
                 self.italics()
                 pass
-
-            elif la_ == 3:
+            elif token in [LatexParser.HEADER1]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 56
                 self.header1()
                 pass
-
-            elif la_ == 4:
+            elif token in [LatexParser.HEADER2]:
                 self.enterOuterAlt(localctx, 4)
                 self.state = 57
                 self.header2()
                 pass
-
-            elif la_ == 5:
+            elif token in [LatexParser.HEADER3]:
                 self.enterOuterAlt(localctx, 5)
                 self.state = 58
                 self.header3()
                 pass
-
-            elif la_ == 6:
+            elif token in [LatexParser.ENUM_START]:
                 self.enterOuterAlt(localctx, 6)
                 self.state = 59
                 self.numbered_list()
                 pass
-
-            elif la_ == 7:
+            elif token in [LatexParser.LIST_START]:
                 self.enterOuterAlt(localctx, 7)
                 self.state = 60
                 self.itemize()
                 pass
-
-            elif la_ == 8:
+            elif token in [LatexParser.CODE_START]:
                 self.enterOuterAlt(localctx, 8)
                 self.state = 61
                 self.code()
                 pass
-
+            else:
+                raise NoViableAltException(self)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -468,6 +486,12 @@ class LatexParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitElementContent" ):
                 listener.exitElementContent(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitElementContent" ):
+                return visitor.visitElementContent(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -555,6 +579,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitLatexNestedElement" ):
                 listener.exitLatexNestedElement(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLatexNestedElement" ):
+                return visitor.visitLatexNestedElement(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -630,6 +660,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitBold" ):
                 listener.exitBold(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBold" ):
+                return visitor.visitBold(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -680,6 +716,12 @@ class LatexParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitItalics" ):
                 listener.exitItalics(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitItalics" ):
+                return visitor.visitItalics(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -732,6 +774,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitHeader1" ):
                 listener.exitHeader1(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHeader1" ):
+                return visitor.visitHeader1(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -762,8 +810,8 @@ class LatexParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def HEADER1(self):
-            return self.getToken(LatexParser.HEADER1, 0)
+        def HEADER2(self):
+            return self.getToken(LatexParser.HEADER2, 0)
 
         def text(self):
             return self.getTypedRuleContext(LatexParser.TextContext,0)
@@ -783,6 +831,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitHeader2" ):
                 listener.exitHeader2(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHeader2" ):
+                return visitor.visitHeader2(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -793,7 +847,7 @@ class LatexParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 101
-            self.match(LatexParser.HEADER1)
+            self.match(LatexParser.HEADER2)
             self.state = 102
             self.text()
             self.state = 103
@@ -813,8 +867,8 @@ class LatexParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def HEADER1(self):
-            return self.getToken(LatexParser.HEADER1, 0)
+        def HEADER3(self):
+            return self.getToken(LatexParser.HEADER3, 0)
 
         def text(self):
             return self.getTypedRuleContext(LatexParser.TextContext,0)
@@ -834,6 +888,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitHeader3" ):
                 listener.exitHeader3(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitHeader3" ):
+                return visitor.visitHeader3(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -844,7 +904,7 @@ class LatexParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 105
-            self.match(LatexParser.HEADER1)
+            self.match(LatexParser.HEADER3)
             self.state = 106
             self.text()
             self.state = 107
@@ -894,6 +954,12 @@ class LatexParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitNumbered_list" ):
                 listener.exitNumbered_list(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNumbered_list" ):
+                return visitor.visitNumbered_list(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -977,6 +1043,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitItemize" ):
                 listener.exitItemize(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitItemize" ):
+                return visitor.visitItemize(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1046,6 +1118,12 @@ class LatexParser ( Parser ):
             if hasattr( listener, "exitItem" ):
                 listener.exitItem(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitItem" ):
+                return visitor.visitItem(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1094,6 +1172,12 @@ class LatexParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCode" ):
                 listener.exitCode(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCode" ):
+                return visitor.visitCode(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 

@@ -1,8 +1,16 @@
 \begin{document}
-\section{naglowek}
+\section{Introduction}
+Here is the text of your introduction.
+
 \begin{itemize}
-    \item listowanie
-    \item listowanie 2
+    \item first item
+    \item second item
 \end{itemize}
-koniec \textbf{i pogrubiony koniec!}
+
+\subsection{Subsection Heading Here}
+Write your subsection text here.
+
+\begin{verbatim} Write your code here. \end{verbatim}
 \end{document}
+
+\begin{document}\section{Introduction}\textbf{halo}\end{document}
