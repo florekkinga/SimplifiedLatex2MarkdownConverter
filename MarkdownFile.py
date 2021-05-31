@@ -39,3 +39,33 @@ class MarkdownFormat:
 
     def line_break(self):
         return '<br>'
+
+    def table(self, align):
+        align = self.table_align(align)
+        column_count = align.count('|') - 1
+
+        table = " | "
+        for i, v in enumerate(self.text):
+            if i == column_count:
+                table += "\n" + align + "\n | "
+            elif i % column_count == 0 and i > 0:
+                table += "\n | "
+            table += v + " | "
+        return table
+
+    def table_align(self, source):
+        align = " | "
+        for i in str(source)[1:-1]:
+            if i == "|":
+                continue
+            align += self.__convert_align_char(i)
+            align += " | "
+        return align
+
+    def __convert_align_char(self, ch):
+        if ch == 'l':
+            return ':---'
+        elif ch == 'c':
+            return ':---:'
+        elif ch == 'r':
+            return '---:'
