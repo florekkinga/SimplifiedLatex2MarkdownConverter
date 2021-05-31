@@ -77,5 +77,5 @@ code
     ;
 
 table
-    : TABLE_START text? TABLE_END
+    : TABLE_START TABLE_ALIGN text? TABLE_END
     ;

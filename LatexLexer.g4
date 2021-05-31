@@ -76,24 +76,13 @@ CODE_END
     ;
 
 TABLE_START
-    : '\\begin{table}' '[]'? WHITESPACE? '\\begin{tabular}' '{' -> pushMode(COLUMNS)
+    : '\\begin{table}' '[]'? WHITESPACE? '\\begin{tabular}'
+    ;
+
+TABLE_ALIGN
+    : '{' ('|'? [lrc] '|'?)+ COMMAND_CLOSE
     ;
 
 TABLE_END
-    : '\\end{tabular}' WHITESPACE? '\\end{table}'
-    ;
-
-mode COLUMNS;
-COLUMNS_ALIGN
-    : COLUMN_ALIGN+ COMMAND_CLOSE -> popMode
-    ;
-
-COLUMN_ALIGN
-    : '|'? ALIGN_CHAR '|'?
-    ;
-
-ALIGN_CHAR
-    : 'l'
-    | 'r'
-    | 'c'
+    : WHITESPACE? '\\end{tabular}' WHITESPACE? '\\end{table}'
     ;
