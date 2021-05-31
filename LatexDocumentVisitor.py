@@ -4,9 +4,13 @@ from MarkdownFile import MarkdownFile, MarkdownFormat
 
 
 class LatexDocumentVisitor(LatexParserVisitor):
+    def __init__(self, output_name:None) -> None:
+        super().__init__()
+        self.output_name = output_name
+
     def visitLatexDocument(self, ctx: LatexParser.LatexDocumentContext):
         text = self.visit(ctx.documentContent())
-        return MarkdownFile(text).generate()
+        return MarkdownFile(text).generate(self.output_name)
 
     def visitDocumentContent(self, ctx: LatexParser.DocumentContentContext):
         return self.visitChildren(ctx)
@@ -66,3 +70,9 @@ class LatexDocumentVisitor(LatexParserVisitor):
         elements = [self.visit(child) for child in ctx.children]
         content = ''.join(elements)
         return content
+    
+    def visitTable(self, ctx:LatexParser.TableContext):
+        align = ctx.TABLE_ALIGN()
+        # prepare list of cells - without newlines (both Windows and Linux) and leading/trailing spaces
+        cells = [cell.getText().replace('\n', '').replace('\r', '').strip() for cell in ctx.text()]
+        return MarkdownFormat(cells).table(align)

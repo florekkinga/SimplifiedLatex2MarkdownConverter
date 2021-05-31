@@ -2,17 +2,26 @@ from antlr4 import *
 from LatexLexer import LatexLexer
 from LatexParser import LatexParser
 from LatexDocumentVisitor import LatexDocumentVisitor
+import sys
 
 
-def main():
-    lexer = LatexLexer(StdinStream())
-    stream = CommonTokenStream(lexer)
-    parser = LatexParser(stream)
-    tree = parser.latexDocument()
-    markdown_file = LatexDocumentVisitor().visit(tree)
-    print("Latex document content in Markdown: \n" + markdown_file)
+def main(argv):
+    if len(sys.argv) > 1:
+        input = FileStream(argv[1])
+        if len(sys.argv) > 2:
+            output_name = argv[2]
+        else:
+            output_name = None
+        lexer = LatexLexer(input)
+        stream = CommonTokenStream(lexer)
+        parser = LatexParser(stream)
+        tree = parser.latexDocument()
+        markdown_file = LatexDocumentVisitor(output_name).visit(tree)
+        print("Latex document content in Markdown: \n" + markdown_file)
+    else:
+        print('Error : Expected a valid file')
 
 
 # run, paste one example from examples.txt, and click ^D
 if __name__ == '__main__':
-    main()
+    main(sys.argv)
