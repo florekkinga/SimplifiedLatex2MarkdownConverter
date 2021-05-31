@@ -12,7 +12,7 @@ DOCUMENT_END
 
 TEXT
     :
-    ~[\\}]+
+    ~[\\}&]+
     ;
 
 LINE_END
@@ -81,6 +81,14 @@ TABLE_START
 
 TABLE_ALIGN
     : '{' ('|'? [lrc] '|'?)+ COMMAND_CLOSE
+    ;
+
+CELL_SEPARATOR
+    : '&'
+    ;
+
+HLINE
+    : '\\hline'
     ;
 
 TABLE_END
