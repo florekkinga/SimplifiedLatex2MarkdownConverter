@@ -2,6 +2,7 @@ from antlr4 import *
 from Grammar.LatexLexer import LatexLexer
 from Grammar.LatexParser import LatexParser
 from Grammar.LatexDocumentVisitor import LatexDocumentVisitor
+from Grammar.LatexErrorListener import LatexErrorListener
 import sys
 
 options = """
@@ -52,6 +53,7 @@ def launch_from_file(argv):
     lexer = LatexLexer(InputStream(prepared_file))
     stream = CommonTokenStream(lexer)
     parser = LatexParser(stream)
+    parser.addErrorListener(LatexErrorListener())
     tree = parser.latexDocument()
     markdown_file = LatexDocumentVisitor(output_name, inline_html).visit(tree)
     if ("-s" not in argv and "--silent" not in argv) or output_name == None:
@@ -74,6 +76,7 @@ def launch_from_paste(argv):
     lexer = LatexLexer(StdinStream())
     stream = CommonTokenStream(lexer)
     parser = LatexParser(stream)
+    parser.addErrorListener(LatexErrorListener())
     tree = parser.latexDocument()
     markdown_file = LatexDocumentVisitor(output_name, inline_html).visit(tree)
     if ("-s" not in argv and "--silent" not in argv) or output_name == None:

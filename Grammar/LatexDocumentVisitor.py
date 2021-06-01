@@ -67,12 +67,16 @@ class LatexDocumentVisitor(LatexParserVisitor):
         items = [self.visit(child) for child in ctx.children if isinstance(child, LatexParser.ItemContext)]
         return MarkdownFormat().ordered_list(items)
 
+    def visitQuote(self, ctx: LatexParser.QuoteContext):
+        content = ctx.text().getText()
+        return MarkdownFormat(content).quote()
+
     def visitChildren(self, ctx):
         elements = [self.visit(child) for child in ctx.children]
         content = ''.join(elements)
         return content
     
-    def visitTable(self, ctx:LatexParser.TableContext):
+    def visitTable(self, ctx: LatexParser.TableContext):
         align = ctx.TABLE_ALIGN()
         # prepare list of cells - without newlines (both Windows and Linux) and leading/trailing spaces
         cells = [cell.getText().replace('\n', '').replace('\r', '').strip() for cell in ctx.text()]
