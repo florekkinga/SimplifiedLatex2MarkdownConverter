@@ -8,11 +8,15 @@ import sys
 def main(argv):
     if len(sys.argv) > 1:
         input = FileStream(argv[1])
+        if len(sys.argv) > 2:
+            output_name = argv[2]
+        else:
+            output_name = None
         lexer = LatexLexer(input)
         stream = CommonTokenStream(lexer)
         parser = LatexParser(stream)
         tree = parser.latexDocument()
-        markdown_file = LatexDocumentVisitor().visit(tree)
+        markdown_file = LatexDocumentVisitor(output_name).visit(tree)
         print("Latex document content in Markdown: \n" + markdown_file)
     else:
         print('Error : Expected a valid file')

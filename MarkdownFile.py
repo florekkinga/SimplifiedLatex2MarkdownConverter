@@ -2,9 +2,17 @@ class MarkdownFile:
     def __init__(self, text):
         self.text = text
 
-    def generate(self):
+    def generate(self, output_name=None):
         # this is probably good place to create .md file, but we can do this later
+        if output_name != None:
+            self.generate_file(output_name)
         return self.text
+
+    def generate_file(self, output_name):
+        text_file = open(output_name, "w")
+        text_file.write(self.text.strip())
+        text_file.close()
+        print("Saved Markdown content as a file: " + output_name)
 
 
 class MarkdownFormat:

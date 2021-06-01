@@ -4,9 +4,13 @@ from MarkdownFile import MarkdownFile, MarkdownFormat
 
 
 class LatexDocumentVisitor(LatexParserVisitor):
+    def __init__(self, output_name:None) -> None:
+        super().__init__()
+        self.output_name = output_name
+
     def visitLatexDocument(self, ctx: LatexParser.LatexDocumentContext):
         text = self.visit(ctx.documentContent())
-        return MarkdownFile(text).generate()
+        return MarkdownFile(text).generate(self.output_name)
 
     def visitDocumentContent(self, ctx: LatexParser.DocumentContentContext):
         return self.visitChildren(ctx)
