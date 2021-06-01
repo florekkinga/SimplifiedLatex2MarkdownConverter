@@ -1,3 +1,6 @@
+from antlr4.tree.Tree import TerminalNode
+
+
 class MarkdownFile:
     def __init__(self, text):
         self.text = text
@@ -50,12 +53,12 @@ class MarkdownFormat:
     def quote(self):
         return '> ' + self.text
 
-    def table(self, align):
+    def table(self, cells, align):
         align = self.table_align(align)
         column_count = align.count('|') - 1
 
         table = " | "
-        for i, v in enumerate(self.text):
+        for i, v in enumerate(cells):
             if i == column_count:
                 table += "\n" + align + "\n | "
             elif i % column_count == 0 and i > 0:
@@ -79,3 +82,9 @@ class MarkdownFormat:
             return ':---:'
         elif ch == 'r':
             return '---:'
+    
+    def color(self, color, inline_html):
+        if inline_html:
+            return '<span style="color:'+color+'">' + self.text + "</span>"
+        else:
+            return self.text

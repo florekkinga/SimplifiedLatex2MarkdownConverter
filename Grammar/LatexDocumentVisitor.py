@@ -4,9 +4,10 @@ from .MarkdownFile import MarkdownFile, MarkdownFormat
 
 
 class LatexDocumentVisitor(LatexParserVisitor):
-    def __init__(self, output_name: None) -> None:
+    def __init__(self, output_name:None, inline_html:False) -> None:
         super().__init__()
         self.output_name = output_name
+        self.inline_html = inline_html
 
     def visitLatexDocument(self, ctx: LatexParser.LatexDocumentContext):
         text = self.visit(ctx.documentContent())
@@ -79,4 +80,9 @@ class LatexDocumentVisitor(LatexParserVisitor):
         align = ctx.TABLE_ALIGN()
         # prepare list of cells - without newlines (both Windows and Linux) and leading/trailing spaces
         cells = [cell.getText().replace('\n', '').replace('\r', '').strip() for cell in ctx.text()]
-        return MarkdownFormat(cells).table(align)
+        return MarkdownFormat().table(cells, align)
+
+    def visitColor(self, ctx:LatexParser.ColorContext):
+        contents = [text.getText() for text in ctx.text()]
+        return MarkdownFormat(contents[1]).color(contents[0], self.inline_html)
+
