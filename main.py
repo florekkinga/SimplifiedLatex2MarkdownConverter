@@ -10,6 +10,7 @@ options = """
 While all of those options are optional, they must be used in this order.
 """
 
+
 def main(argv):
     if len(sys.argv) > 2 and (argv[1] == "-f" or argv[1] == "--file"):
         launch_from_file(argv)
@@ -17,6 +18,7 @@ def main(argv):
         launch_from_paste(argv)
     else:
         print('Error : Invalid command syntax. Available options:', options)
+
 
 def launch_from_file(argv):
     prepared_file = prepare_input(argv[2])
@@ -31,12 +33,14 @@ def launch_from_file(argv):
     markdown_file = LatexDocumentVisitor(output_name).visit(tree)
     print("Latex document content in Markdown: \n" + markdown_file)
 
+
 def prepare_input(file_name):
     with open(file_name, 'r') as file:
         lines = file.readlines()
         while "\\begin{document}" not in lines[0]:
             lines.pop(0)
         return ''.join(lines)
+
 
 def launch_from_paste(argv):
     if len(sys.argv) > 2 and (argv[1] == "-o" or argv[1] == "--output"):

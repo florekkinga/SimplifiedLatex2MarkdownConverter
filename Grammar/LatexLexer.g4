@@ -94,3 +94,15 @@ HLINE
 TABLE_END
     : WHITESPACE? '\\end{tabular}' WHITESPACE? '\\end{table}'
     ;
+
+QUOTE_START
+    : '\\say{'
+    ;
+
+COLOR_START
+    : '\\textcolor{'
+    ;
+
+COLOR_MID
+    : '}{'
+    ;

@@ -1,4 +1,4 @@
-# Generated from LatexParser.g4 by ANTLR 4.9
+# Generated from Grammar/LatexParser.g4 by ANTLR 4.9
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .LatexParser import LatexParser
@@ -86,6 +86,16 @@ class LatexParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by LatexParser#table.
     def visitTable(self, ctx:LatexParser.TableContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by LatexParser#quote.
+    def visitQuote(self, ctx:LatexParser.QuoteContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by LatexParser#color.
+    def visitColor(self, ctx:LatexParser.ColorContext):
         return self.visitChildren(ctx)
 
 

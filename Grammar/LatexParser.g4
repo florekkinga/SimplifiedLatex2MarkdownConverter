@@ -26,6 +26,8 @@ latexElement
     | itemize
     | code
     | table
+    | quote
+    | color
     ;
 
 elementContent
@@ -38,6 +40,8 @@ latexNestedElement
     | numbered_list
     | itemize
     | code
+    | quote
+    | color
     ;
 
 bold
@@ -78,4 +82,12 @@ code
 
 table
     : TABLE_START TABLE_ALIGN (text (CELL_SEPARATOR text)* LINE_END WHITESPACE? HLINE?)+ TABLE_END
+    ;
+
+quote
+    : QUOTE_START text COMMAND_CLOSE
+    ;
+
+color
+    : COLOR_START text COLOR_MID text COMMAND_CLOSE
     ;

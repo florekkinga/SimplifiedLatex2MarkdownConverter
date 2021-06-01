@@ -1,4 +1,4 @@
-# Generated from LatexParser.g4 by ANTLR 4.9
+# Generated from Grammar/LatexParser.g4 by ANTLR 4.9
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .LatexParser import LatexParser
@@ -149,6 +149,24 @@ class LatexParserListener(ParseTreeListener):
 
     # Exit a parse tree produced by LatexParser#table.
     def exitTable(self, ctx:LatexParser.TableContext):
+        pass
+
+
+    # Enter a parse tree produced by LatexParser#quote.
+    def enterQuote(self, ctx:LatexParser.QuoteContext):
+        pass
+
+    # Exit a parse tree produced by LatexParser#quote.
+    def exitQuote(self, ctx:LatexParser.QuoteContext):
+        pass
+
+
+    # Enter a parse tree produced by LatexParser#color.
+    def enterColor(self, ctx:LatexParser.ColorContext):
+        pass
+
+    # Exit a parse tree produced by LatexParser#color.
+    def exitColor(self, ctx:LatexParser.ColorContext):
         pass
 
 
