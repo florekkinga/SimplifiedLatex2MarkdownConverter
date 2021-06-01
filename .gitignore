@@ -1,3 +1,8 @@
 .vscode/
 .antlr/
 input*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+D:\Studia\TKiK\SimplifiedLatex2MarkdownConverter\__pycache__

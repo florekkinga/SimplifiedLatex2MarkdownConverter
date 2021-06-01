@@ -1,6 +1,6 @@
-from LatexParserVisitor import LatexParserVisitor
-from LatexParser import LatexParser
-from MarkdownFile import MarkdownFile, MarkdownFormat
+from .LatexParserVisitor import LatexParserVisitor
+from .LatexParser import LatexParser
+from .MarkdownFile import MarkdownFile, MarkdownFormat
 
 
 class LatexDocumentVisitor(LatexParserVisitor):

@@ -1,7 +1,7 @@
 from antlr4 import *
-from LatexLexer import LatexLexer
-from LatexParser import LatexParser
-from LatexDocumentVisitor import LatexDocumentVisitor
+from Grammar.LatexLexer import LatexLexer
+from Grammar.LatexParser import LatexParser
+from Grammar.LatexDocumentVisitor import LatexDocumentVisitor
 import sys
 
 
