@@ -2,6 +2,7 @@ from antlr4 import *
 from Grammar.LatexLexer import LatexLexer
 from Grammar.LatexParser import LatexParser
 from Grammar.LatexDocumentVisitor import LatexDocumentVisitor
+from Grammar.LatexErrorListener import LatexErrorListener
 import sys
 
 options = """
@@ -29,6 +30,7 @@ def launch_from_file(argv):
     lexer = LatexLexer(InputStream(prepared_file))
     stream = CommonTokenStream(lexer)
     parser = LatexParser(stream)
+    parser.addErrorListener(LatexErrorListener())
     tree = parser.latexDocument()
     markdown_file = LatexDocumentVisitor(output_name).visit(tree)
     print("Latex document content in Markdown: \n" + markdown_file)
@@ -52,6 +54,7 @@ def launch_from_paste(argv):
     lexer = LatexLexer(StdinStream())
     stream = CommonTokenStream(lexer)
     parser = LatexParser(stream)
+    parser.addErrorListener(LatexErrorListener())
     tree = parser.latexDocument()
     markdown_file = LatexDocumentVisitor(output_name).visit(tree)
     print("Latex document content in Markdown: \n" + markdown_file)

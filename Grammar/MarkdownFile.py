@@ -3,8 +3,7 @@ class MarkdownFile:
         self.text = text
 
     def generate(self, output_name=None):
-        # this is probably good place to create .md file, but we can do this later
-        if output_name != None:
+        if output_name is not None:
             self.generate_file(output_name)
         return self.text
 
@@ -47,6 +46,9 @@ class MarkdownFormat:
 
     def line_break(self):
         return '<br>'
+
+    def quote(self):
+        return '> ' + self.text
 
     def table(self, align):
         align = self.table_align(align)
