@@ -6,7 +6,7 @@ from Grammar.LatexErrorListener import LatexErrorListener
 import sys
 
 options = """
-This command is used to conver TeX into MarkDown.
+This command is used to convert TeX into MarkDown.
 Usage:
     = To run, read TeX from console (without preamble) and output MarkDown into console:
         python main.py
@@ -20,6 +20,7 @@ Usage:
 """
 
 options_list = ["-h", "--help", "-f", "--file", "-o", "--out", "-i", "--inline", "-s", "--silent"]
+
 
 def main(argv):
     if not all(item in options_list for item in argv if item[0] == '-'):
@@ -51,13 +52,7 @@ def launch_from_file(argv):
     inline_html = ("-i" in argv or "--inline" in argv)
 
     lexer = LatexLexer(InputStream(prepared_file))
-    stream = CommonTokenStream(lexer)
-    parser = LatexParser(stream)
-    parser.addErrorListener(LatexErrorListener())
-    tree = parser.latexDocument()
-    markdown_file = LatexDocumentVisitor(output_name, inline_html).visit(tree)
-    if ("-s" not in argv and "--silent" not in argv) or output_name == None:
-        print("Latex document content in Markdown: \n" + markdown_file)
+    parse_and_generate_markdown_file(lexer, output_name, inline_html, argv)
 
 
 def prepare_input(file_name):
@@ -74,12 +69,16 @@ def launch_from_paste(argv):
 
     print("Paste your LaTeX document contents (without preamble) and enter EOF:\n")
     lexer = LatexLexer(StdinStream())
+    parse_and_generate_markdown_file(lexer, output_name, inline_html, argv)
+
+
+def parse_and_generate_markdown_file(lexer, output_name, inline_html, argv):
     stream = CommonTokenStream(lexer)
     parser = LatexParser(stream)
     parser.addErrorListener(LatexErrorListener())
     tree = parser.latexDocument()
     markdown_file = LatexDocumentVisitor(output_name, inline_html).visit(tree)
-    if ("-s" not in argv and "--silent" not in argv) or output_name == None:
+    if ("-s" not in argv and "--silent" not in argv) or output_name is None:
         print("Latex document content in Markdown: \n" + markdown_file)
 
 

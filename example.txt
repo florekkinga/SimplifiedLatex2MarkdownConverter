@@ -6,6 +6,6 @@ Here is the text of your introduction.
     \item second item
 \end{itemize}
 \subsection{Subsection Heading Here}
-Write your subsection \error text here.
+Write your subsection text here.
 \begin{verbatim} Write your code here. \end{verbatim}
 \end{document}
