@@ -76,6 +76,7 @@ def launch_from_paste(argv):
 
 
 def parse_and_generate_markdown_file(lexer, output_name, inline_html, argv):
+    lexer.addErrorListener(LatexErrorListener())
     stream = CommonTokenStream(lexer)
     parser = LatexParser(stream)
     parser.addErrorListener(LatexErrorListener())
