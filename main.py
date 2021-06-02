@@ -39,6 +39,9 @@ def main(argv):
             launch_from_paste(argv)
     except IndexError:
         print("One or more of used options needs a value specified. Refer to -h or --help for more info.")
+    # If we catch the exception this way it won't print the traceback - just error message
+    except Exception as e:
+        print(e)
 
 
 def launch_from_file(argv):

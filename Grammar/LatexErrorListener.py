@@ -8,8 +8,7 @@ class LatexErrorListener(ErrorListener):
         super(LatexErrorListener, self).__init__()
 
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        raise Exception("\n\nSyntax of input file is incorrect or input file contains illegal (unsupported) symbol or "
-                        "command \nOffending symbol: " + str(offendingSymbol.text))
+        raise Exception("If you specifed an output file it has not been created.\n")
 
     def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
         raise Exception("Oh no!!")
