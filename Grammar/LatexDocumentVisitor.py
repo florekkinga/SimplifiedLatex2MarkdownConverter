@@ -49,7 +49,7 @@ class LatexDocumentVisitor(LatexParserVisitor):
         if ctx.LINE_END():
             return MarkdownFormat().line_break()
         else:
-            return ctx.getText()
+            return MarkdownFormat().format_text(ctx.getText())
 
     def visitCode(self, ctx: LatexParser.CodeContext):
         content = ctx.text().getText()

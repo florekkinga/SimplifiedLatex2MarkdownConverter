@@ -40,15 +40,17 @@ class MarkdownFormat:
         return '```' + self.text + '```'
 
     def ordered_list(self, items):
+        items = [self.format_text(item) for item in items]
         ordered_list = [(str(i) + '. ' + item.lstrip().rstrip() + '\n') for i, item in enumerate(items)]
         return ''.join(ordered_list)
 
     def unordered_list(self, items):
+        items = [self.format_text(item) for item in items]
         unordered_list = [('- ' + item.lstrip().rstrip() + '\n') for item in items]
         return ''.join(unordered_list)
 
     def line_break(self):
-        return '<br>'
+        return '  '
 
     def quote(self):
         return '> ' + self.text
@@ -88,3 +90,8 @@ class MarkdownFormat:
             return '<span style="color:'+color+'">' + self.text + "</span>"
         else:
             return self.text
+
+    def format_text(self, text):
+        formatted_text = text.replace('*', '\\*').replace('#', '\\#').replace('_', '\\_')
+        formatted_text = formatted_text.replace('<', '\\<').replace('>', '\\>').replace('|', '\\|').replace('`', '\\`')
+        return formatted_text

@@ -1,5 +1,5 @@
-**textbf**<br>
-*textit*<br>
+**textbf**  
+*textit*  
 
 - test point list
 - test point list
@@ -15,7 +15,7 @@
  | r2c1 | r2c2 | r2c3 | 
  | r3c1 | r3c2 | r3c3 | 
 
-<span style="color:blue">blue</span>
+blue
 
 # section
 
